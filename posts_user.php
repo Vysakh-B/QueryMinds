@@ -1,0 +1,96 @@
+
+<?php
+session_start();
+include "connection.php";
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/index.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+</head>
+<title>index</title>
+</head>
+
+<body style="background-color:rgb(13, 82, 135);">
+
+    <!-- nav bar begining -->
+    <nav class="navbar navbar-expand-lg  bg-dark" >
+      <div class="container-fluid" >
+        <a class="navbar-brand" href="admin_home_usr.php" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;color: white;">Anything</a>
+        <button class="navbar-toggler bg-success" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          
+        </div>
+      </div>
+    </nav>
+    <!-- nav bar end -->
+    <!-- body -->
+    <div class="container ">
+        <div class="container-md w-75 col-6">
+
+            <div class="row align-items-start">
+            <?php
+                
+$usr=$_GET['id'];
+                $qurry="SELECT * FROM `posts` WHERE user='$usr' ORDER BY id DESC";
+                $d=mysqli_query($con,$qurry);
+                if($d){
+                    if(mysqli_num_rows($d)>0){
+                        while($all = mysqli_fetch_assoc($d)){
+                                //destination card
+                                ?>
+                        <div class="col p-2">
+                            <div class="card  mt-3 mx-4 mb-3" style="width: 18rem;background-color:rgb(8, 27, 55);box-shadow: 0 8px 32px 0 rgb(8, 27, 55);">
+                                <div class="card-body">
+                                  <?php
+                                  echo('
+                                    <h5 class="card-title" style="color:orange;">'.$all["head"].'</h5>');
+                                    echo('
+                                    <h6 class="card-subtitle mb-2 "style="color:rgb(190, 86, 86);">'.$all["user"].'</h6>');
+                                    echo('<h6 class="card-subtitle mb-2 "style="color:rgb(255, 255, 255);">'.$all["date"].'</h6>');
+        
+                                    echo('<p class="card-text" style="color:rgb(102, 230, 247);">'.$all["content"].'</p>');
+                                    ?>
+                                    <div class="container">
+                                    <form method="post">
+                                    <?php
+                                    
+  
+                                    echo("<button type='button' class='btn btn-outline-primary' me-2><a href='admin_replys.php?post_id=$all[id]'>replys</a></button>");
+                                    echo("<button type='submit' name='rmv' class='btn btn-outline-success me-2 mx-2' data-mdb-toggle='tooltip' data-mdb-placement='top' title='Remove'>
+                                    <a href='admin_post_remove.php?id=$all[id]'>Remove</a>
+                                   </button>");
+                                   echo('</form>');
+                                   
+                                    ?>
+                                    </div>
+                                </div>
+                       
+                            </div>
+                        </div>
+                        
+                        
+                        <?php
+                }}}
+                ?>
+        
+            </div>
+        </div>
+
+    </div>
+    <!-- body -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+</body>
+</body>
+
+</html>
